@@ -40,10 +40,16 @@ class Player(Sprite):
             self.vel.x = 0
             print("i am off the right side of the screen...")
         if self.rect.x < 0:
+            self.pos.x = WIDTH + 25
+            self.vel.x = 0
             print("i am off the left side of the screen...")
         if self.rect.y > HEIGHT:
+            self.pos.x = HEIGHT - 25
+            self.vel.x = 0
             print("i am off the bottom of the screen")
         if self.rect.y < 0:
+            self.pos.y = HEIGHT + 25
+            self.vel.y = 0
             print("i am off the top of the screen...")
             
 
@@ -70,3 +76,29 @@ class Mob(Sprite):
         self.acc = vec(0,0)
         self.cofric = 0.1
         self.canjump = False
+
+    # This had to be here because the Mob cannot go out of the boundaries
+    def inbounds(self):
+        if self.rect.x > WIDTH:
+            self.vel.x *= -1
+            self.acc = self.vel * -self.cofric
+        if self.rect.x < 0:
+            self.vel.x *= -1
+            self.acc = self.vel * -self.cofric
+        if self.rect.y < 0:
+            self.vel.y *= -1
+            # self.acc = self.vel * -self.cofric
+        if self.rect.y > HEIGHT:
+            self.vel.y *= -1
+            # self.acc = self.vel * -self.cofric
+
+    def behavior(self):
+        # acc go up
+        self.inbounds()
+    def update(self):
+        # self.inbounds()
+        # self.acc = self.vel * -.01
+        self.behavior()
+        self.vel += self.acc
+        self.pos += self.vel + 0.5 * self.acc
+        self.rect.center = self.pos

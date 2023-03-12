@@ -4,12 +4,11 @@
 # Build file ad folder structres
 # create libraies
 
-# This file was created by: Chris Cozort
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
 # Sources: 
 
 # import libs
-import pygame
+import pygame as pg
 import random
 import os
 # import settings 
@@ -22,20 +21,20 @@ game_folder = os.path.dirname(__file__)
 img_folder = os.path.join(game_folder, "img")
 
 def get_mouse_now():
-    x,y = pygame.mouse.get_pos()
+    x,y = pg.mouse.get_pos()
     return (x,y)
 
 
 # init pygame and create window
-pygame.init()
+pg.init()
 # init sound mixer
-pygame.mixer.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("My first game...")
-clock = pygame.time.Clock() 
+pg.mixer.init()
+screen = pg.display.set_mode((WIDTH, HEIGHT))
+pg.display.set_caption("My first game...")
+clock = pg.time.Clock() 
 
-all_sprites = pygame.sprite.Group()
-enemies = pygame.sprite.Group()
+all_sprites = pg.sprite.Group()
+enemies = pg.sprite.Group()
 player = Player()
 # testSprite = Sprite()
 # testSprite.image = pygame.Surface((50,50))
@@ -45,22 +44,27 @@ player = Player()
 all_sprites.add(player)
 # all_sprites.add(testSprite)
 
+enemy1 = Mob(80,80)
+
+all_sprites.add(player)
+all_sprites.add(enemy1)
+
 # game loop
 
 while RUNNING:
     #  keep loop running at the right speed
     clock.tick(FPS)
     ### process input events section of game loop
-    for event in pygame.event.get():
+    for event in pg.event.get():
         # check for window closing
-        if event.type == pygame.QUIT:
+        if event.type == pg.QUIT:
             RUNNING = False
             # break
     # print(get_mouse_now())
     ### update section of game loop (if updates take longer the 1/30th of a second, you will get laaaaag...)
     all_sprites.update()
 
-    blocks_hit_list = pygame.sprite.spritecollide(player, enemies, True)
+    blocks_hit_list = pg.sprite.spritecollide(player, enemies, True)
     for block in blocks_hit_list:
         # print(enemies)
         pass
@@ -68,7 +72,7 @@ while RUNNING:
     screen.fill(BLUE)
     all_sprites.draw(screen)
     # double buffering draws frames for entire screen
-    pygame.display.flip()
-    # pygame.display.update() -> only updates a portion of the screen
+    pg.display.flip()
+    # pg.display.update() -> only updates a portion of the screen
 # ends program when loops evaluates to false
-pygame.quit()
+pg.quit()
