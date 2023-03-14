@@ -49,6 +49,7 @@ enemy1 = Mob(80,80)
 all_sprites.add(player)
 all_sprites.add(enemy1)
 
+
 # game loop
 
 while RUNNING:
