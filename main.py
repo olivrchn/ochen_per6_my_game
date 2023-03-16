@@ -35,20 +35,25 @@ clock = pg.time.Clock()
 
 all_sprites = pg.sprite.Group()
 enemies = pg.sprite.Group()
+
 player = Player()
-# testSprite = Sprite()
-# testSprite.image = pygame.Surface((50,50))
-# testSprite.image.fill(GREEN)
-# testSprite.rect = testSprite.image.get_rect()
-# testSprite.rect.center = (WIDTH / 2, HEIGHT / 2)
+
+
 all_sprites.add(player)
-# all_sprites.add(testSprite)
 
 enemy1 = Mob(80,80)
 
 all_sprites.add(player)
 all_sprites.add(enemy1)
 
+for i in range(0,20):
+    # instantiate mobs
+    m = Mob(randint(30,90), randint(30, 90), (255,0,0))
+    # add enemies to enemies and all_sprites...
+    enemies.add(m)
+    all_sprites.add(m)
+
+print(enemies)
 
 # game loop
 
@@ -64,7 +69,8 @@ while RUNNING:
     # print(get_mouse_now())
     ### update section of game loop (if updates take longer the 1/30th of a second, you will get laaaaag...)
     all_sprites.update()
-
+    
+    # if player hits enemies
     blocks_hit_list = pg.sprite.spritecollide(player, enemies, True)
     for block in blocks_hit_list:
         # print(enemies)
