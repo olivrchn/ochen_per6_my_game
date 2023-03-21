@@ -6,6 +6,8 @@ from settings import *
 
 vec = pg.math.Vector2
 
+from random import randint
+
 # player class
 
 class Player(Sprite):
@@ -31,28 +33,18 @@ class Player(Sprite):
             self.acc.y = PLAYER_ACC
         if keystate[pg.K_d]:
             self.acc.x = PLAYER_ACC
-
-
-    # This is a meathod that will keep it on screen / pacman
+    # ...
     def inbounds(self):
         if self.rect.x > WIDTH - 50:
             self.pos.x = WIDTH - 25
             self.vel.x = 0
             print("i am off the right side of the screen...")
         if self.rect.x < 0:
-            self.pos.x = WIDTH + 25
-            self.vel.x = 0
             print("i am off the left side of the screen...")
         if self.rect.y > HEIGHT:
-            self.pos.x = HEIGHT - 25
-            self.vel.x = 0
             print("i am off the bottom of the screen")
         if self.rect.y < 0:
-            self.pos.y = HEIGHT + 25
-            self.vel.y = 0
             print("i am off the top of the screen...")
-            
-
 
     def update(self):
         self.inbounds()
@@ -61,44 +53,38 @@ class Player(Sprite):
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         self.rect.center = self.pos
-        
+
 class Mob(Sprite):
-    def __init__(self,w,h):
+    def __init__(self,width,height, color):
         Sprite.__init__(self)
-        self.w = w
-        self.h = h
-        self.image = pg.Surface((50,50))
-        self.image.fill(BLACK)
+        self.width = width
+        self.height = height
+        self.image = pg.Surface((self.width,self.height))
+        self.color = color
+        self.image.fill(self.color)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
         self.pos = vec(WIDTH/2, HEIGHT/2)
-        self.vel = vec(0,0)
-        self.acc = vec(0,0)
-        self.cofric = 0.1
-        self.canjump = False
-
-    # This had to be here because the Mob cannot go out of the boundaries
+        self.vel = vec(randint(1,5),randint(1,5))
+        self.acc = vec(1,1)
+        self.cofric = 0.01
+    # ...
     def inbounds(self):
         if self.rect.x > WIDTH:
             self.vel.x *= -1
-            self.acc = self.vel * -self.cofric
+            # self.acc = self.vel * -self.cofric
         if self.rect.x < 0:
             self.vel.x *= -1
-            self.acc = self.vel * -self.cofric
+            # self.acc = self.vel * -self.cofric
         if self.rect.y < 0:
             self.vel.y *= -1
             # self.acc = self.vel * -self.cofric
         if self.rect.y > HEIGHT:
             self.vel.y *= -1
             # self.acc = self.vel * -self.cofric
-
-    def behavior(self):
-        # acc go up
-        self.inbounds()
     def update(self):
-        # self.inbounds()
-        # self.acc = self.vel * -.01
-        self.behavior()
-        self.vel += self.acc
-        self.pos += self.vel + 0.5 * self.acc
+        self.inbounds()
+        # self.pos.x += self.vel.x
+        # self.pos.y += self.vel.y
+        self.pos += self.vel
         self.rect.center = self.pos
