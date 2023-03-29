@@ -12,7 +12,6 @@
 
 # import libs
 import pygame as pg
-import random
 import os
 # import settings 
 from settings import *
@@ -42,6 +41,8 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
+        self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150))
+        self.all_sprites.add(self.plat1)
         self.all_sprites.add(self.player)
         for i in range(0,10):
             m = Mob(20,20,(0,255,0))
@@ -65,7 +66,6 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_SPACE:
                     self.player.jump()
-    
     def update(self):
         self.all_sprites.update()
     def draw(self):
@@ -73,11 +73,6 @@ class Game:
         self.all_sprites.draw(self.screen)
         # is this a method or a function?
         pg.display.flip()
-        #
-        '''  
-        
-        
-        '''
     def draw_text(self, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)
@@ -89,8 +84,10 @@ class Game:
         x,y = pg.mouse.get_pos()
         return (x,y)
 
+# instantiate the game class...
 g = Game()
 
+# kick off the game loop
 while g.running:
     g.new()
 

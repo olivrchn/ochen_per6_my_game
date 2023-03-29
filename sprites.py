@@ -1,12 +1,10 @@
 import pygame as pg
-
 from pygame.sprite import Sprite
-
 from settings import *
+from random import randint
+
 
 vec = pg.math.Vector2
-
-from random import randint
 
 # player class
 
@@ -44,7 +42,11 @@ class Player(Sprite):
         #         print(PAUSED)
     # ...
     def jump(self):
+        self.rect.x += 1
         hits = pg.sprite.spritecollide(self, self.game.platforms, False)
+        self.rect.x -= 1
+        if hits:
+            self.vel.y = -PLAYER_JUMP
     
     def inbounds(self):
         if self.rect.x > WIDTH - 50:
@@ -59,11 +61,20 @@ class Player(Sprite):
             print("i am off the bottom of the screen")
         if self.rect.y < 0:
             print("i am off the top of the screen...")
-
+    def mob_collide(self):
+            hits = pg.sprite.spritecollide(self, self.game.enemies, True)
+            if hits:
+                print("you collided with an enemy...")
+                self.game.score += 1
+                print(SCORE)
     def update(self):
+        self.mob_collide()
         self.inbounds()
-        self.acc = self.vel * PLAYER_FRICTION
+        # self.acc = (0, PLAYER_GRAV)
+        self.acc = vec(0, PLAYER_GRAV)
         self.input()
+        # self.acc = self.vel * PLAYER_FRICTION
+        self.acc.x = self.vel.x * PLAYER_FRICTION
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         self.rect.center = self.pos
@@ -102,3 +113,17 @@ class Mob(Sprite):
         # self.pos.y += self.vel.y
         self.pos += self.vel
         self.rect.center = self.pos
+
+# create a new platform class...
+
+class Platform(Sprite):
+    def __init__(self, width, height, x, y, color):
+        Sprite.__init__(self)
+        self.width = width
+        self.height = height
+        self.image = pg.Surface((self.width,self.height))
+        self.color = color
+        self.image.fill(self.color)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
