@@ -4,7 +4,6 @@
 # Build file and folder structures
 # Create libraries
 # testing github changes
-# I changed something - I changed something else tooooo!
 
 # This file was created by: Oliver Chen
 # Sources: http://kidscancode.org/blog/2016/08/pygame_1-1_getting-started/
@@ -41,9 +40,17 @@ class Game:
         self.platforms = pg.sprite.Group()
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
-        self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150))
+        self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
+        # self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         self.all_sprites.add(self.plat1)
+
+        self.platforms.add(self.plat1)
+        
         self.all_sprites.add(self.player)
+        for plat in PLATFORM_LIST:
+            p = Platform(*plat)
+            self.all_sprites.add(p)
+            self.platforms.add(p)
         for i in range(0,10):
             m = Mob(20,20,(0,255,0))
             self.all_sprites.add(m)
@@ -68,9 +75,28 @@ class Game:
                     self.player.jump()
     def update(self):
         self.all_sprites.update()
+        
+        # if the player is falling
+        if self.player.vel.y > 0:
+            hits = pg.sprite.spritecollide(self.player, self.platforms, False)
+            if hits:
+                self.player.standing = True
+                if hits[0].variant == "disappearing":
+                    hits[0].kill()
+                elif hits[0].variant == "bouncey":
+                    self.player.pos.y = hits[0].rect.top
+                    self.player.vel.y = -PLAYER_JUMP
+                else:
+                    self.player.pos.y = hits[0].rect.top
+                    self.player.vel.y = 0
+            else:
+                self.player.standing = False
+
     def draw(self):
         self.screen.fill(BLUE)
         self.all_sprites.draw(self.screen)
+        if self.player.standing:
+            self.draw_text("I hit a plat!", 24, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
         pg.display.flip()
     def draw_text(self, text, size, color, x, y):
