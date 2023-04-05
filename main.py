@@ -96,7 +96,7 @@ class Game:
         self.screen.fill(BLUE)
         self.all_sprites.draw(self.screen)
         if self.player.standing:
-            self.draw_text("I hit a plat!", 24, WHITE, WIDTH/2, HEIGHT/2)
+            self.draw_text("SCORE: ", 40, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
         pg.display.flip()
     def draw_text(self, text, size, color, x, y):
@@ -109,6 +109,8 @@ class Game:
     def get_mouse_now(self):
         x,y = pg.mouse.get_pos()
         return (x,y)
+    
+    pg.display.flip()
 
 # instantiate the game class...
 g = Game()
