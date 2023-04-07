@@ -41,6 +41,7 @@ class Game:
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
         self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
+        self.plat = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         # self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         self.all_sprites.add(self.plat1)
 
@@ -95,8 +96,7 @@ class Game:
     def draw(self):
         self.screen.fill(BLUE)
         self.all_sprites.draw(self.screen)
-        if self.player.standing:
-            self.draw_text("SCORE: ", 40, WHITE, WIDTH/2, HEIGHT/2)
+        self.draw_text("SCORE: " + str(SCORE), 40, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
         pg.display.flip()
     def draw_text(self, text, size, color, x, y):
@@ -110,7 +110,7 @@ class Game:
         x,y = pg.mouse.get_pos()
         return (x,y)
     
-    pg.display.flip()
+
 
 # instantiate the game class...
 g = Game()
