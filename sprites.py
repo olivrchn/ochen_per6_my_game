@@ -13,8 +13,8 @@ class Player(Sprite):
         Sprite.__init__(self)
         # these are the properties
         self.game = game
-        self.image = pg.Surface((50,50))
-        self.image.fill(BLACK)
+        self.image = pg.image.load('Soccer.png').convert_alpha()
+        self.image = pg.transform.scale(self.image, (60,60))
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
         self.pos = vec(WIDTH/2, HEIGHT/2)

@@ -94,7 +94,7 @@ class Game:
                 self.player.standing = False
 
     def draw(self):
-        self.screen.fill(BLUE)
+        self.screen.fill(RED)
         self.all_sprites.draw(self.screen)
         self.draw_text("SCORE: " + str(SCORE), 40, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
