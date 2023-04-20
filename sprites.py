@@ -13,6 +13,7 @@ class Player(Sprite):
         Sprite.__init__(self)
         # these are the properties
         self.game = game
+        # this will change the image of the player
         self.image = pg.image.load('Soccer.png').convert_alpha()
         self.image = pg.transform.scale(self.image, (60,60))
         self.rect = self.image.get_rect()
@@ -52,15 +53,15 @@ class Player(Sprite):
         if self.rect.x > WIDTH - 50:
             self.pos.x = WIDTH - 25
             self.vel.x = 0
-            print("i am off the right side of the screen...")
         if self.rect.x < 0:
             self.pos.x = 25
             self.vel.x = 0
-            print("i am off the left side of the screen...")
         if self.rect.y > HEIGHT:
-            print("i am off the bottom of the screen")
+            self.pos.y = HEIGHT - 25
+            self.vel.y = 0
         if self.rect.y < 0:
-            print("i am off the top of the screen...")
+            self.pos.y = 25
+            self.vel.y = 0
     def mob_collide(self):
             hits = pg.sprite.spritecollide(self, self.game.enemies, True)
             if hits:

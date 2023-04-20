@@ -52,8 +52,8 @@ class Game:
             p = Platform(*plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
-        for i in range(0,10):
-            m = Mob(20,20,(0,255,0))
+        for i in range(0,20):
+            m = Mob(20,20,(0,255,100))
             self.all_sprites.add(m)
             self.enemies.add(m)
         self.run()
@@ -92,6 +92,7 @@ class Game:
                     self.player.vel.y = 0
             else:
                 self.player.standing = False
+
 
     def draw(self):
         self.screen.fill(RED)
