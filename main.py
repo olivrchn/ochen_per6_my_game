@@ -41,10 +41,8 @@ class Game:
         self.enemies = pg.sprite.Group()
         self.player = Player(self)
         self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
-        self.plat = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         # self.plat1 = Platform(WIDTH, 50, 0, HEIGHT-50, (150,150,150), "normal")
         self.all_sprites.add(self.plat1)
-
         self.platforms.add(self.plat1)
         
         self.all_sprites.add(self.player)
@@ -52,8 +50,8 @@ class Game:
             p = Platform(*plat)
             self.all_sprites.add(p)
             self.platforms.add(p)
-        for i in range(0,20):
-            m = Mob(20,20,(0,255,100))
+        for i in range(0,100):
+            m = Mob(30,30,(100,255,100))
             self.all_sprites.add(m)
             self.enemies.add(m)
         self.run()
@@ -95,7 +93,7 @@ class Game:
 
 
     def draw(self):
-        self.screen.fill(RED)
+        self.screen.fill(GREEN)
         self.all_sprites.draw(self.screen)
         self.draw_text("SCORE: " + str(SCORE), 40, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
