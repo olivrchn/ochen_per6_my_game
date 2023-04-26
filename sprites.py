@@ -61,21 +61,20 @@ class Player(Sprite):
             self.pos.x = 80
             self.vel.x = 0
     def mob_collide(self):
-            hits = pg.sprite.spritecollide(self, self.game.enemies, True)
-            if hits:
-                print("you collided with an enemy...")
+            hit_list = pg.sprite.spritecollide(self, self.game.enemies, True)
+            if hit_list:
+                print('i hit a mob')
                 self.game.score += 1
-                print(SCORE)
+                print(self.game.score)
     def update(self):
-        
         self.acc = vec(0, PLAYER_GRAV)
-       
         self.acc.x = self.vel.x * PLAYER_FRICTION
         self.input()
         self.vel += self.acc
         self.pos += self.vel + 0.5 * self.acc
         self.rect.midbottom = self.pos
         self.inbounds()
+        
 
 class Mob(Sprite):
     def __init__(self,width,height, color):
@@ -87,8 +86,8 @@ class Mob(Sprite):
         self.image = pg.transform.scale(self.image, (30,30))
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH/2, HEIGHT/2)
-        self.pos = vec(WIDTH/2, HEIGHT/2)
-        self.vel = vec(randint(1,5),randint(1,5))
+        self.pos = vec(50,50)
+        self.vel = vec(randint(0,11),randint(0,11))
         self.acc = vec(1,1)
         self.cofric = 0.01
     # ...
@@ -128,3 +127,4 @@ class Platform(Sprite):
         self.rect.x = x
         self.rect.y = y
         self.variant = variant
+

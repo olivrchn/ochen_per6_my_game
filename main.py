@@ -59,6 +59,7 @@ class Game:
         self.playing = True
         while self.playing:
             self.clock.tick(FPS)
+            
             self.events()
             self.update()
             self.draw()
@@ -95,7 +96,7 @@ class Game:
     def draw(self):
         self.screen.fill(GREEN)
         self.all_sprites.draw(self.screen)
-        self.draw_text("SCORE: " + str(SCORE), 40, WHITE, WIDTH/2, HEIGHT/2)
+        self.draw_text("SCORE: " + str(self.score), 40, WHITE, WIDTH/2, HEIGHT/2)
         # is this a method or a function?
         pg.display.flip()
     def draw_text(self, text, size, color, x, y):
